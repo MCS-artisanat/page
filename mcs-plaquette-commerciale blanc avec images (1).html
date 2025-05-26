@@ -1,0 +1,2123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCS - Magna Consilium Solaris</title>
+    
+    <!-- Google Fonts - Spectral + Inter pour un rendu plus luxueux -->
+    <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* PALETTE MCS ORIGINALE RESPECTÉE */
+            --primary-blue: #0B3633;
+            --primary-green: #88A78B;
+            --primary-ocre: #FAF9F7;
+            --light-gray: #E5E5E0;
+            --dark-gray: #2C3337;
+            --luxury-cream: #F5F3EF;
+            --gradient-blue-green: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            --gradient-luxury: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-green) 50%, var(--primary-ocre) 100%);
+            --shadow-luxury: 0 20px 60px rgba(11, 54, 51, 0.08);
+            --shadow-subtle: 0 8px 30px rgba(11, 54, 51, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-ocre);
+            color: var(--dark-gray);
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .serif {
+            font-family: 'Spectral', serif;
+        }
+
+        /* Texture Paper Luxury - Version MCS */
+        .paper-texture::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="paper" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="0.3" fill="rgba(139,167,139,0.1)"/><circle cx="18" cy="8" r="0.2" fill="rgba(139,167,139,0.08)"/><circle cx="12" cy="16" r="0.25" fill="rgba(139,167,139,0.09)"/></pattern></defs><rect width="100" height="100" fill="url(%23paper)"/></svg>') repeat;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* SÉPARATION PAGES CORRIGÉE */
+        .page {
+            min-height: 100vh;
+            padding: 0;
+            position: relative;
+            break-after: page;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0;
+            page-break-after: always;
+        }
+
+        .page + .page {
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 80px;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        /* Logo Space Preparation */
+        .logo-placeholder {
+            width: 120px;
+            height: 120px;
+            border: 2px dashed rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .logo-space {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: var(--shadow-luxury);
+        }
+
+        .logo-space img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Cover Page - Style Luxury MCS */
+        .cover-page {
+            background: var(--gradient-luxury);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover-page::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 2px,
+                rgba(255,255,255,0.015) 2px,
+                rgba(255,255,255,0.015) 4px
+            );
+            animation: subtle-move 25s linear infinite;
+        }
+
+        @keyframes subtle-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 30px); }
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-main {
+            font-family: 'Spectral', serif;
+            font-size: 5rem;
+            font-weight: 200;
+            letter-spacing: 12px;
+            margin-bottom: 50px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .logo-subtitle {
+            font-size: 1rem;
+            letter-spacing: 8px;
+            font-weight: 200;
+            opacity: 0.9;
+            margin-bottom: 80px;
+            text-transform: uppercase;
+        }
+
+        .tagline {
+            font-family: 'Spectral', serif;
+            font-size: 2.8rem;
+            font-style: italic;
+            font-weight: 300;
+            max-width: 900px;
+            margin: 0 auto 60px;
+            line-height: 1.2;
+            position: relative;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .tagline::before,
+        .tagline::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            top: 50%;
+        }
+
+        .tagline::before {
+            left: -80px;
+        }
+
+        .tagline::after {
+            right: -80px;
+        }
+
+        .cover-footer {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Section Pages - SÉPARATION CORRIGÉE */
+        .section-page {
+            background: white;
+            position: relative;
+        }
+
+        .page-header {
+            margin-bottom: 80px;
+            position: relative;
+            text-align: left;
+        }
+
+        .page-number {
+            position: absolute;
+            top: -60px;
+            right: 0;
+            font-family: 'Spectral', serif;
+            font-size: 0.9rem;
+            color: var(--primary-green);
+            letter-spacing: 3px;
+            font-weight: 300;
+        }
+
+        .page-title {
+            font-family: 'Spectral', serif;
+            font-size: 3.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-weight: 300;
+            letter-spacing: -1px;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 120px;
+            height: 1px;
+            background: var(--primary-green);
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--primary-green);
+            font-weight: 300;
+            margin-top: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Notre Maison - avec espaces photos */
+        .maison-intro {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 60px;
+            font-weight: 300;
+            color: var(--dark-gray);
+            max-width: 800px;
+        }
+
+        .founders-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .founder-card {
+            text-align: center;
+            position: relative;
+        }
+
+        .founder-photo {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            overflow: hidden;
+            box-shadow: var(--shadow-luxury);
+            border: 3px solid var(--light-gray);
+            position: relative;
+        }
+
+        /* Pour les photos des fondateurs */
+        .founder-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top; /* Privilégie le visage */
+            filter: sepia(5%) contrast(1.05) brightness(1.02);
+        }
+
+        .founder-photo-placeholder {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            border: 2px dashed var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--primary-green);
+            text-align: center;
+            line-height: 1.3;
+            background: var(--luxury-cream);
+        }
+
+        .founder-name {
+            font-family: 'Spectral', serif;
+            font-size: 1.4rem;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .founder-role {
+            color: var(--primary-green);
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Philosophy Section */
+        .philosophy-intro {
+            max-width: 750px;
+            margin-bottom: 60px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .pillars-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .pillar {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .pillar-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 40px;
+            background: var(--luxury-cream);
+            border: 2px solid var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-luxury);
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .pillar-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-blue-green);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .pillar:hover .pillar-icon::before {
+            opacity: 0.15;
+        }
+
+        .pillar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: all 0.6s ease;
+            position: relative;
+            z-index: 2;
+            border-radius: 50%;
+            transform: scale(0.85);
+        }
+
+        .pillar:hover .pillar-image {
+            transform: scale(0.95);
+            filter: brightness(1.1) contrast(1.05) saturate(1.1);
+        }
+
+        .pillar:hover .pillar-icon {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(11, 54, 51, 0.2);
+            border-color: var(--primary-blue);
+        }
+
+        /* Effet de reflet luxueux */
+        .pillar-icon::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            width: 25%;
+            height: 25%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4), transparent);
+            border-radius: 50%;
+            opacity: 0.6;
+            z-index: 3;
+            transition: opacity 0.6s ease;
+        }
+
+        .pillar:hover .pillar-icon::after {
+            opacity: 0.8;
+        }
+
+        /* Animations subtiles pour chaque icône */
+        .luxury-craft svg {
+            animation: subtle-rotate 8s ease-in-out infinite;
+        }
+
+        .luxury-proximity svg {
+            animation: subtle-pulse 6s ease-in-out infinite;
+        }
+
+        .luxury-excellence svg {
+            animation: subtle-shimmer 10s ease-in-out infinite;
+        }
+
+        @keyframes subtle-rotate {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        @keyframes subtle-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes subtle-shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+
+
+        .pillar-title {
+            font-family: 'Spectral', serif;
+            font-size: 1.6rem;
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .pillar-description {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--dark-gray);
+            font-weight: 300;
+        }
+
+        /* Method Section avec image */
+        .method-intro {
+            background: var(--luxury-cream);
+            padding: 60px;
+            border-radius: 0;
+            margin-bottom: 60px;
+            text-align: center;
+            position: relative;
+            border-left: 4px solid var(--primary-green);
+        }
+
+        .method-quote {
+            font-family: 'Spectral', serif;
+            font-size: 2rem;
+            color: var(--primary-blue);
+            font-style: italic;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        .method-visual {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 100px;
+            align-items: start;
+            margin-top: 60px;
+        }
+
+        .method-luxury-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 600px;
+            justify-content: space-between;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .luxury-ornament-1 {
+            text-align: center;
+            position: relative;
+        }
+
+        .ornament-circle {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--primary-green);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            position: relative;
+            opacity: 0.6;
+        }
+
+        .ornament-circle::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .ornament-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--primary-green), transparent);
+            margin: 0 auto;
+        }
+
+        .method-signature {
+            text-align: center;
+            writing-mode: horizontal-tb;
+        }
+
+        .signature-text {
+            display: block;
+            font-family: 'Spectral', serif;
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            font-weight: 300;
+        }
+
+        .signature-subtext {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--primary-green);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .luxury-ornament-2 {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .ornament-pattern {
+            width: 100%;
+            height: 100%;
+            background: repeating-conic-gradient(
+                from 0deg at 50% 50%,
+                transparent 0deg,
+                var(--primary-green) 2deg,
+                transparent 4deg,
+                transparent 88deg,
+                var(--primary-green) 90deg,
+                transparent 92deg
+            );
+            opacity: 0.15;
+            border-radius: 50%;
+            animation: slow-rotate 30s linear infinite;
+        }
+
+        @keyframes slow-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .luxury-quote {
+            text-align: center;
+            position: relative;
+        }
+
+        .quote-mark {
+            font-family: 'Spectral', serif;
+            font-size: 4rem;
+            color: var(--primary-green);
+            opacity: 0.2;
+            position: absolute;
+            top: -20px;
+            left: -15px;
+        }
+
+        .quote-text {
+            font-family: 'Spectral', serif;
+            font-size: 0.9rem;
+            color: var(--primary-blue);
+            font-style: italic;
+            line-height: 1.4;
+            position: relative;
+            z-index: 2;
+        }
+
+        .method-steps {
+            display: grid;
+            gap: 25px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .step-item:last-child {
+            border-bottom: none;
+        }
+
+        .step-number {
+            width: 35px;
+            height: 35px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-family: 'Spectral', serif;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .step-content p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .method-image {
+            text-align: center;
+        }
+
+        .method-image-placeholder {
+            width: 100%;
+            height: 350px;
+            border: 2px dashed var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--primary-green);
+            text-align: center;
+            background: var(--luxury-cream);
+            border-radius: 8px;
+        }
+
+        .method-image img {
+            width: 100%;
+            height: auto;
+            max-height: 350px;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        /* === SERVICES SECTION LUXE === */
+        .services-manifesto {
+            text-align: center;
+            margin-bottom: 80px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .manifesto-quote {
+            font-family: 'Spectral', serif;
+            font-size: 2.4rem;
+            color: var(--primary-blue);
+            font-style: italic;
+            font-weight: 300;
+            line-height: 1.3;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .manifesto-quote::before,
+        .manifesto-quote::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 1px;
+            background: var(--primary-green);
+            top: 50%;
+        }
+
+        .manifesto-quote::before {
+            left: -60px;
+        }
+
+        .manifesto-quote::after {
+            right: -60px;
+        }
+
+        .manifesto-subtitle {
+            font-size: 1.1rem;
+            color: var(--primary-green);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .services-luxury-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 60px;
+        }
+
+        .service-luxury-card {
+            background: white;
+            overflow: hidden;
+            box-shadow: var(--shadow-luxury);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            border: 1px solid rgba(136, 167, 139, 0.1);
+        }
+
+        .service-luxury-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 40px 80px rgba(11, 54, 51, 0.15);
+        }
+
+        .service-luxury-visual {
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+            background: var(--luxury-cream);
+        }
+
+        .service-luxury-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            transition: all 0.6s ease;
+            padding: 30px;
+        }
+
+        .service-luxury-card:hover .service-luxury-image {
+            transform: scale(1.05);
+            filter: brightness(1.05) contrast(1.1);
+        }
+
+        .service-luxury-overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(11, 54, 51, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.4s ease;
+        }
+
+        .service-luxury-card:hover .service-luxury-overlay {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .service-number {
+            color: white;
+            font-family: 'Spectral', serif;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        .service-luxury-content {
+            padding: 50px 40px;
+        }
+
+        .service-luxury-title {
+            font-family: 'Spectral', serif;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+        }
+
+        .service-luxury-subtitle {
+            font-size: 0.9rem;
+            color: var(--primary-green);
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .service-luxury-description {
+            margin-bottom: 35px;
+        }
+
+        .service-luxury-description p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--dark-gray);
+            font-weight: 300;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .service-luxury-description p:last-child {
+            margin-bottom: 0;
+        }
+
+        .service-luxury-features {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .luxury-feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(136, 167, 139, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .luxury-feature:last-child {
+            border-bottom: none;
+        }
+
+        .luxury-feature:hover {
+            padding-left: 10px;
+            color: var(--primary-blue);
+        }
+
+        .feature-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .luxury-feature:hover .feature-dot {
+            background: var(--primary-blue);
+            transform: scale(1.3);
+        }
+
+        .luxury-feature span:last-child {
+            font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        .services-signature {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 80px;
+            gap: 40px;
+        }
+
+        .signature-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-green), transparent);
+        }
+
+        .signature-text {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .signature-main {
+            font-family: 'Spectral', serif;
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .signature-sub {
+            font-size: 0.8rem;
+            color: var(--primary-green);
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .services-luxury-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            
+            .manifesto-quote::before,
+            .manifesto-quote::after {
+                display: none;
+            }
+            
+            .services-signature {
+                gap: 20px;
+            }
+            
+            .signature-line {
+                width: 40px;
+            }
+        }
+        
+        /* === SECTION RÉALISATION CHANEL === */
+        .case-visual-section-chanel {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        /* Ligne du haut : Texte + Stats */
+        .case-top-row {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .case-content-left {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .case-title {
+            font-family: 'Spectral', serif;
+            font-size: 2.2rem;
+            color: var(--primary-blue);
+            font-weight: 300;
+            line-height: 1.3;
+            margin: 0;
+        }
+
+        .case-text {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .case-text p {
+            font-size: 1rem;
+            line-height: 1.7;
+            font-weight: 300;
+            color: var(--dark-gray);
+            margin: 0;
+        }
+
+        /* Stats compactes à droite */
+        .case-stats-right {
+            background: var(--luxury-cream);
+            padding: 35px 25px;
+            border-left: 3px solid var(--primary-green);
+            height: fit-content;
+        }
+
+        .stats-grid-compact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-item-compact {
+            text-align: center;
+            padding: 20px 15px;
+            background: white;
+            box-shadow: var(--shadow-subtle);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item-compact:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-item-compact .stat-number {
+            font-family: 'Spectral', serif;
+            font-size: 2.2rem;
+            color: var(--primary-blue);
+            font-weight: 300;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .stat-item-compact .stat-label {
+            font-size: 0.8rem;
+            color: var(--primary-green);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+
+        /* Carte centrée en dessous */
+        .case-map-centered {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .case-image-center {
+            position: relative;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .case-image-center img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: var(--shadow-luxury);
+            transition: transform 0.4s ease;
+        }
+
+        .case-image-center:hover img {
+            transform: scale(1.02);
+        }
+
+        .map-signature {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: var(--primary-green);
+            opacity: 0.8;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .case-top-row {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .stats-grid-compact {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            
+            .case-image-center {
+                max-width: 100%;
+            }
+        }
+
+        /* Agrandissement des statistiques pour équilibrer */
+        .case-stats {
+            background: var(--luxury-cream);
+            padding: 50px 40px;
+            border-left: 4px solid var(--primary-green);
+            margin-top: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .stat-number {
+            font-family: 'Spectral', serif;
+            font-size: 2.8rem;
+            color: var(--primary-blue);
+            font-weight: 300;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--primary-green);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        /* Pour l'image de cas d'étude Riom */
+        .case-image img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: var(--shadow-luxury);
+        }
+
+        .case-image-placeholder {
+            width: 100%;
+            height: 300px;
+            border: 2px dashed var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: var(--primary-green);
+            text-align: center;
+            background: var(--luxury-cream);
+            border-radius: 8px;
+        }
+
+        .case-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .case-title {
+            font-family: 'Spectral', serif;
+            font-size: 2.2rem;
+            color: var(--primary-blue);
+            font-weight: 300;
+            line-height: 1.3;
+        }
+
+        .case-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .case-stats {
+            background: var(--luxury-cream);
+            padding: 40px;
+            border-radius: 0;
+            border-left: 4px solid var(--primary-green);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 0;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .stat-number {
+            font-family: 'Spectral', serif;
+            font-size: 2.2rem;
+            color: var(--primary-blue);
+            font-weight: 300;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--primary-green);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 50px;
+            border-radius: 0;
+            border-left: 4px solid var(--primary-green);
+            margin-top: 50px;
+            font-style: italic;
+            position: relative;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .testimonial::before {
+            content: '"';
+            font-size: 5rem;
+            color: var(--primary-green);
+            opacity: 0.2;
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-family: 'Spectral', serif;
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            padding-left: 60px;
+            font-weight: 300;
+        }
+
+        .testimonial-author {
+            text-align: right;
+            font-weight: 400;
+            color: var(--primary-blue);
+            font-style: normal;
+            font-size: 0.95rem;
+        }
+
+        /* Contact Page - FOOTER CORRIGÉ */
+        .contact-page {
+            background: var(--primary-blue);
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .contact-page .container {
+            padding-bottom: 60px; /* CORRECTION SÉPARATION FOOTER */
+        }
+
+        .contact-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            font-family: 'Spectral', serif;
+            font-size: 3.5rem;
+            margin-bottom: 50px;
+            font-weight: 300;
+        }
+
+        .contact-promise {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 60px;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .contact-item {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .contact-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .contact-value {
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        .signature {
+            margin-top: 40px;
+            font-family: 'Spectral', serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Print Styles */
+        @media print {
+            .page {
+                page-break-after: always;
+                margin: 0;
+                box-shadow: none;
+                min-height: 100vh;
+            }
+            
+            body {
+                print-color-adjust: exact;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 30px;
+            }
+            
+            .founders-grid,
+            .pillars-container,
+            .method-visual,
+            .services-grid,
+            .case-visual-section,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .logo-main {
+                font-size: 3rem;
+                letter-spacing: 6px;
+            }
+            
+            .tagline {
+                font-size: 1.8rem;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .method-visual {
+        margin-top: 80px;
+        }
+
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .method-card {
+            background: white;
+            padding: 50px 35px;
+            text-align: center;
+            box-shadow: var(--shadow-luxury);
+            transition: all 0.4s ease;
+            border-top: 3px solid var(--primary-green);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .method-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(11, 54, 51, 0.15);
+        }
+
+        .method-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-blue-green);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .method-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .method-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 30px;
+            background: var(--luxury-cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            transition: all 0.3s ease;
+            border: 2px solid var(--light-gray);
+        }
+
+        .method-card:hover .method-icon {
+            background: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+            transform: scale(1.1);
+        }
+
+        .method-number {
+            font-family: 'Spectral', serif;
+            font-size: 2.2rem;
+            color: var(--primary-blue);
+            font-weight: 300;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .method-title {
+            font-family: 'Spectral', serif;
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-weight: 400;
+            line-height: 1.3;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .method-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--dark-gray);
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .method-phase-divider {
+            margin: 60px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .method-phase-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-green), transparent);
+        }
+
+        .phase-label {
+            background: var(--primary-ocre);
+            color: var(--primary-green);
+            padding: 8px 25px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Responsive pour les cartes */
+        @media (max-width: 768px) {
+            .method-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .method-card {
+                padding: 40px 25px;
+            }
+            
+            .method-title {
+                min-height: auto;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Ajout d'éléments de respiration luxueux */
+        .breathing-space {
+            height: 60px;
+            position: relative;
+        }
+
+        .breathing-space::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-green), transparent);
+        }
+
+        /* Ornements discrets entre sections */
+        .section-ornament {
+            text-align: center;
+            margin: 37px 0;
+            font-family: 'Spectral', serif;
+            color: var(--primary-green);
+            opacity: 0.3;
+            font-size: 1.5rem;
+            letter-spacing: 20px;
+        }
+
+                /* Hover subtil sur les éléments interactifs */
+        .founder-card:hover {
+            transform: translateY(-2px);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Typographie perfectionnée */
+        .luxury-text {
+            font-variant-ligatures: common-ligatures discretionary-ligatures;
+            font-feature-settings: "kern" 1, "liga" 1, "dlig" 1;
+        }
+
+        /* === CSS PRINT POUR PDF PARFAIT === */
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            body {
+                margin: 0;
+                padding: 0;
+                background: white !important;
+                font-size: 12pt;
+                line-height: 1.4;
+            }
+            
+            /* Force les couleurs de fond */
+            .cover-page,
+            .contact-page,
+            .service-highlight {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            /* Gestion des pages */
+            .page {
+                page-break-after: always;
+                page-break-inside: avoid;
+                margin: 0;
+                padding: 20mm;
+                min-height: calc(297mm - 40mm); /* A4 minus margins */
+                width: calc(210mm - 40mm);
+                box-sizing: border-box;
+                display: block;
+            }
+            
+            /* Évite les coupures malheureuses */
+            .founder-profile,
+            .pillar,
+            .service-card,
+            .case-stats,
+            .testimonial {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            
+            /* Ajuste les tailles pour le print */
+            .logo-main {
+                font-size: 3.5rem !important;
+            }
+            
+            .page-title {
+                font-size: 2.8rem !important;
+            }
+            
+            .tagline {
+                font-size: 2.2rem !important;
+            }
+            
+            /* Optimise les grilles pour print */
+            .founders-grid,
+            .pillars-container,
+            .services-grid {
+                display: grid;
+                gap: 20pt;
+            }
+            
+            .founders-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .pillars-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            /* Masque les éléments décoratifs problématiques */
+            .breathing-space,
+            .method-luxury-column,
+            .luxury-ornament-1,
+            .luxury-ornament-2 {
+                display: none;
+            }
+            
+            /* Ajuste les images */
+            img {
+                max-width: 100% !important;
+                height: auto !important;
+                page-break-inside: avoid;
+            }
+            
+            /* Force l'affichage des ombres */
+            .service-card,
+            .case-card,
+            .founder-profile {
+                box-shadow: 0 2pt 8pt rgba(0,0,0,0.1) !important;
+            }
+        }
+
+        /* Format A4 spécifique */
+        @page {
+            size: A4;
+            margin: 15mm;
+            
+            @top-center {
+                content: "MCS • Artisans des Transitions";
+                font-family: 'Spectral', serif;
+                font-size: 8pt;
+                color: #88A78B;
+            }
+            
+            @bottom-right {
+                content: counter(page);
+                font-family: 'Spectral', serif;
+                font-size: 8pt;
+                color: #0B3633;
+            }
+        }
+
+        /* Page de couverture sans en-têtes */
+        .cover-page {
+            page: cover;
+        }
+
+        @page cover {
+            @top-center { content: none; }
+            @bottom-right { content: none; }
+        }
+        
+    </style>
+</head>
+
+<body>
+    <!-- Page 1: Couverture -->
+    <div class="page cover-page paper-texture">
+        <div class="container">
+            <div class="cover-content">
+                <!-- ESPACE LOGO PRINCIPAL -->
+                <div class="logo-space">
+                    <!-- Remplacez cette div par : <img src="VOTRE_URL_LOGO" alt="Logo MCS"> -->
+                    <div class="logo-space">
+                        <img src="https://MCS-artisanat.github.io/assets/images/logo-sans-phrase.png" alt="Logo MCS">
+                    </div>
+                </div>
+                
+                <div class="logo-subtitle">Magna Consilium Solaris</div>
+                
+                <div class="tagline">
+                    Artisans des transitions, éclairons les territoires de demain
+                </div>
+            </div>
+            
+            <div class="cover-footer">
+                Maison d'Accompagnement en Développement Territorial
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2: Notre Maison -->
+    <div class="page section-page">
+        <div class="container">
+            <div class="page-header">
+                <div class="page-number">I</div>
+                <h1 class="page-title">Notre Maison</h1>
+                <p class="page-subtitle">L'héritage et l'expertise au service des territoires</p>
+            </div>
+            
+            <div class="maison-intro">
+                <p>Nous sommes une jeune équipe d'économistes engagés, unis par une conviction commune : les collectivités et les organisations à impact ont besoin d'outils fiables, intelligents et humains pour piloter leurs transitions. Plutôt que de livrer des diagnostics standardisés ou des recommandations génériques, nous concevons des accompagnements sur-mesure, façonnés avec l'exigence de l'artisanat français.</p>
+            </div>
+
+            <div class="founders-grid">
+                <div class="founder-card">
+                    <!-- ESPACE PHOTO THÉO -->
+                    <div class="founder-photo">
+                    <img src="https://MCS-artisanat.github.io/assets/images/pro Theo.jpg" alt="Théo Secrétain">
+                    </div>
+                    <div class="founder-name">Théo Secrétain</div>
+                    <div class="founder-role">Associé Gérant</div>
+                </div>
+                
+                <div class="founder-card">
+                    <!-- ESPACE PHOTO HUGO -->
+                    <div class="founder-photo">
+                    
+                        <img src="https://MCS-artisanat.github.io/assets/images/pro Hugo.jpg" alt="Hugo Malzac">
+                    </div>
+                    <div class="founder-name">Hugo Malzac</div>
+                    <div class="founder-role">Associé Gérant</div>
+                </div>
+                
+                <div class="founder-card">
+                    <!-- ESPACE PHOTO JULIEN -->
+                    <div class="founder-photo">
+                        <img src="https://MCS-artisanat.github.io/assets/images/pro Julien.jpg" alt="Julien Carrat">
+                    </div>
+                    <div class="founder-name">Julien Carrat</div>
+                    <div class="founder-role">Associé Gérant</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section-ornament">MCS</div>
+
+    <!-- Page 3: Notre Philosophie -->
+    <div class="page section-page">
+        <div class="container">
+            <div class="page-header">
+                <div class="page-number">II</div>
+                <h1 class="page-title">Notre Philosophie</h1>
+                <p class="page-subtitle">L'art de l'accompagnement territorial</p>
+            </div>
+
+            <div class="philosophy-intro">
+                <p>Notre accompagnement repose sur trois piliers fondamentaux, hérités de la tradition française de l'excellence : l'exigence de la sur-mesure, la proximité dans l'accompagnement, et l'excellence scientifique au service de l'action publique.</p>
+            </div>
+
+            <!-- Remplacez vos 3 piliers par ces versions sophistiquées : -->
+            <div class="pillars-container">
+                <div class="pillar">
+                    <div class="pillar-icon">
+                        <img src="https://MCS-artisanat.github.io/assets/images/Sur mesure.jpg" alt="Sur-mesure" class="pillar-image">
+                    </div>
+                    <h3 class="pillar-title">Sur-mesure</h3>
+                    <p class="pillar-description">Qu'il s'agisse d'une commune, d'une intercommunalité ou d'un réseau, nous adaptons nos outils et nos méthodes à chaque réalité spécifique, avec l'exigence et la souplesse de l'artisanat français.</p>
+                </div>
+                
+                <div class="pillar">
+                    <div class="pillar-icon">
+                        <img src="https://MCS-artisanat.github.io/assets/images/Accompagnement.jpg" alt="Proximité" class="pillar-image">
+                    </div>
+                    <h3 class="pillar-title">Proximité</h3>
+                    <p class="pillar-description">Nous pensons que la transformation ne peut être pilotée à distance. C'est pourquoi nous plaçons l'échange, l'écoute et la présence active au cœur de notre démarche.</p>
+                </div>
+                
+                <div class="pillar">
+                    <div class="pillar-icon">
+                        <img src="https://MCS-artisanat.github.io/assets/images/Rigueur.jpg" alt="Rigueur" class="pillar-image">
+                    </div>
+                    <h3 class="pillar-title">Rigueur</h3>
+                    <p class="pillar-description">Formés à la modélisation, à l'analyse des politiques publiques et à la stratégie territoriale, nous traduisons la complexité en décisions éclairées, sans jamais sacrifier la rigueur.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section-ornament">MCS</div>
+
+    <!-- Page 4: La Méthode MCS -->
+    <div class="page section-page">
+        <div class="container">
+            <div class="page-header">
+                <div class="page-number">III</div>
+                <h1 class="page-title">La Méthode MCS</h1>
+                <p class="page-subtitle">Comprendre les territoires autrement</p>
+            </div>
+
+            <div class="method-intro">
+                <div class="method-quote">
+                    "Aider les collectivités et les organisations à décider avec lucidité dans la complexité"
+                </div>
+            </div>
+
+            <div class="method-visual">
+                <div class="method-steps">
+                    <div class="step-item">
+                        <div class="step-number">I</div>
+                        <div class="step-content">
+                            <h3>Cadrage initial et définition des objectifs</h3>
+                            <p>Nous commençons par une session de travail avec vos équipes pour comprendre vos enjeux spécifiques, vos priorités et vos attentes. Cette étape essentielle nous permet d'adapter notre approche à votre contexte territorial.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">II</div>
+                        <div class="step-content">
+                            <h3>Revue de littérature scientifique et cadres stratégiques</h3>
+                            <p>Notre équipe analyse les études académiques et les cadres réglementaires pertinents . Cette veille documentaire vous garantit des recommandations basées sur les connaissances les plus récentes.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">III</div>
+                        <div class="step-content">
+                            <h3>Collecte et analyse de données</h3>
+                            <p>Nous intégrons les données géographiques, démographiques, économiques et environnementales disponibles et nous en créons de nouvelles à l'aide d'enquetes quantitatives et qualitatives.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">IV</div>
+                        <div class="step-content">
+                            <h3>Calibrage et robustesse des analyses</h3>
+                            <p>Nous vérifions et renforçons nos modèles à l’aide de tests statistiques essentiels pour garantir des résultats robustes et fiables.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <div class="step-number">V</div>
+                        <div class="step-content">
+                            <h3>Comparaison entre territoires</h3>
+                            <p>Nous intégrons et comparons les données de territoires extérieurs au vôtre afin d’analyser, comparer, intégrer et transposer des actions en fonction des meilleures pratiques.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <div class="step-number">VI</div>
+                        <div class="step-content">
+                            <h3>Analyse systémique et modélisation</h3>
+                            <p>C'est le cœur de notre valeur ajoutée : nous identifions les interconnexions entre les différentes dimensions de votre territoire (économiques, sociales, environnementales...) et modélisons des scénarios d'intervention. Cette approche révèle les leviers d'action les plus efficaces pour traiter la complexité des enjeux.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-item">
+                        <div class="step-number">VII</div>
+                        <div class="step-content">
+                            <h3>Action</h3>
+                            <p>Transformer l'analyse en recommandations concrètes, lisibles et partagées.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- AJOUT : Colonne droite luxueuse -->
+                <div class="method-luxury-column">
+                    <div class="luxury-ornament-1">
+                        <div class="ornament-circle"></div>
+                        <div class="ornament-line"></div>
+                    </div>
+                    
+                    <div class="method-signature">
+                        <span class="signature-text">Excellence</span>
+                        <span class="signature-subtext">Méthodologique</span>
+                    </div>
+                    
+                    <div class="luxury-ornament-2">
+                        <div class="ornament-pattern"></div>
+                    </div>
+                    
+                    <div class="luxury-quote">
+                        <span class="quote-mark">"</span>
+                        <span class="quote-text">La précision<br>au service<br>du territoire</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section-ornament">MCS</div>
+
+    <!-- Page 4: Nos Services - Version Luxe -->
+    <div class="page section-page">
+        <div class="container">
+            <div class="page-header">
+                <div class="page-number">IV</div>
+                <h1 class="page-title">Nos Services</h1>
+                <p class="page-subtitle">L'excellence de l'accompagnement territorial</p>
+            </div>
+
+            <!-- Introduction Luxe -->
+            <div class="services-manifesto">
+                <div class="manifesto-quote">
+                    "Transformer la complexité territoriale en décisions éclairées"
+                </div>
+                <p class="manifesto-subtitle">
+                    Deux approches complémentaires, façonnées avec l'exigence de l'artisanat français
+                </p>
+            </div>
+
+            <!-- Services Grid Luxe -->
+            <div class="services-luxury-grid">
+                
+                <!-- Service 1: OADT -->
+                <div class="service-luxury-card">
+                    <div class="service-luxury-visual">
+                        <img src="https://MCS-artisanat.github.io/assets/images/OADT vert.jpeg" alt="OADT - Diagnostic Territorial" class="service-luxury-image">
+                        <div class="service-luxury-overlay">
+                            <div class="service-number">01</div>
+                        </div>
+                    </div>
+                    
+                    <div class="service-luxury-content">
+                        <h3 class="service-luxury-title">OADT©</h3>
+                        <p class="service-luxury-subtitle">Outil d'Aide à la Décision Territoriale</p>
+                        
+                        <div class="service-luxury-description">
+                            <p>Notre offre d'accompagnement stratégique innovant destiné aux collectivités engagées dans les transitions. Une lecture systémique, rigoureuse et sur-mesure, déclinée en sept étapes scientifiques.</p>
+                            
+                            <p>L'OADT permet un diagnostic territorial précis autour d'indicateurs basés sur la science et l'agenda international (ODD), offrant une vision claire pour éclairer vos décisions.</p>
+                        </div>
+                        
+                        <div class="service-luxury-features">
+                            <div class="luxury-feature">
+                                <span class="feature-dot"></span>
+                                <span>Diagnostic multi-dimensionnel</span>
+                            </div>
+                            <div class="luxury-feature">
+                                <span class="feature-dot"></span>
+                                <span>Indicateurs scientifiques personnalisés</span>
+                            </div>
+                            <div class="luxury-feature">
+                                <span class="feature-dot"></span>
+                                <span>Benchmark territorial automatisé</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service 2: Dynamique des Systèmes -->
+                <div class="service-luxury-card">
+                    <div class="service-luxury-visual">
+                        <img src="https://MCS-artisanat.github.io/assets/images/domino-image.png" alt="Dynamique des Systèmes" class="service-luxury-image">
+                        <div class="service-luxury-overlay">
+                            <div class="service-number">02</div>
+                        </div>
+                    </div>
+                    
+                    <div class="service-luxury-content">
+                        <h3 class="service-luxury-title">Dynamique des Systèmes</h3>
+                        <p class="service-luxury-subtitle">L'art de la pensée systémique</p>
+                        
+                        <div class="service-luxury-description">
+                            <p>Nous révélons les interconnexions entre les éléments de votre territoire. Cette approche permet d'anticiper les conséquences, éviter les effets de surprise et prendre des décisions durables.</p>
+                            
+                            <p>À travers la métaphore des dominos, nous analysons comment chaque intervention déclenche des réactions en chaîne, transformant la gouvernance territoriale en orchestration stratégique.</p>
+                        </div>
+                        
+                        <div class="service-luxury-features">
+                            <div class="luxury-feature">
+                                <span class="feature-dot"></span>
+                                <span>Cartographie des interdépendances</span>
+                            </div>
+                            <div class="luxury-feature">
+                                <span class="feature-dot"></span>
+                                <span>Modélisation des effets domino</span>
+                            </div>
+                            <div class="luxury-feature">
+                                <span class="feature-dot"></span>
+                                <span>Simulation de scénarios prospectifs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signature d'Excellence -->
+            <div class="services-signature">
+                <div class="signature-line"></div>
+                <div class="signature-text">
+                    <span class="signature-main">Excellence Méthodologique</span>
+                    <span class="signature-sub">Depuis la Recherche Jusqu'à l'Action</span>
+                </div>
+                <div class="signature-line"></div>
+            </div>
+        </div>
+    </div>
+    <div class="section-ornament">MCS</div>
+
+
+    <!-- Page 6: Réalisation - Riom -->
+    <div class="page section-page">
+        <div class="container">
+            <div class="page-header">
+                <div class="page-number">V</div>
+                <h1 class="page-title">Réalisation</h1>
+                <p class="page-subtitle">La ceinture verte de Riom</p>
+            </div>
+
+            <div class="case-visual-section-chanel">
+                <!-- Texte à gauche + Chiffres à droite -->
+                <div class="case-top-row">
+                    <div class="case-content-left">
+                        <h2 class="case-title">Une ceinture verte comme levier stratégique</h2>
+                        
+                        <div class="case-text">
+                            <p>Nous avons accompagné la ville de Riom dans la structuration d'un projet de ceinture verte urbaine, intégrant biodiversité, services écosystémiques, accessibilité et mobilité.</p>
+                            
+                            <p>Grâce à notre méthode, nous avons conduit un diagnostic systémique approfondi, mobilisant plus de 120 personnes à travers des formats quantitatifs et qualitatifs.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="case-stats-right">
+                        <div class="stats-grid-compact">
+                            <div class="stat-item-compact">
+                                <div class="stat-number">11,84%</div>
+                                <div class="stat-label">Couverture arborée</div>
+                            </div>
+                            <div class="stat-item-compact">
+                                <div class="stat-number">48,16</div>
+                                <div class="stat-label">Espèces/km²</div>
+                            </div>
+                            <div class="stat-item-compact">
+                                <div class="stat-number">43,05%</div>
+                                <div class="stat-label">Connectivité écologique</div>
+                            </div>
+                            <div class="stat-item-compact">
+                                <div class="stat-number">64,82%</div>
+                                <div class="stat-label">Accessibilité</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Carte centrée en dessous -->
+                <div class="case-map-centered">
+                    <div class="case-image-center">
+                        <img src="https://MCS-artisanat.github.io/assets/images/accessibilité_riom.jpeg" alt="Carte diagnostique de Riom">
+                        <div class="map-signature">DIAGNOSTIC MCS • RIOM 2024</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial">
+                <div class="testimonial-text">
+                    Cette étude vise à donner une perspective, à ambitionner une stratégie, à faire mûrir des réflexions chez nos élus, à l'intérieur de nos services, de créer des partenariats, de donner envie de passer un coup de fil à une collectivité qui a été benchmarkée.
+                </div>
+                <div class="testimonial-author">
+                    — Aurélien Fabreguettes, Chargé de mission transition écologique
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 7: Contact -->
+    <div class="page contact-page paper-texture">
+        <div class="container">
+            <div class="contact-content">
+                <h1 class="contact-title">Notre Engagement</h1>
+                
+                <p class="contact-promise">
+                    Faire émerger des décisions éclairées, légitimes et durables. Chaque mission est conçue comme une œuvre unique, façonnée avec méthode, écoute et précision.
+                </p>
+                
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-label">Web</div>
+                        <div class="contact-value">
+                            <a href="https://www.mcs-transitions.fr/index.html" target="_blank" class="contact-link">
+                                www.mcs-transitions.fr
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-label">LinkedIn</div>
+                        <div class="contact-value">
+                            <a href="https://www.linkedin.com/in/mcs-le-bureau-d-accompagnement-des-collectivit%C3%A9s-428994356/?originalSubdomain=fr" target="_blank" class="social-link">
+                                <span>in</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="signature">
+                    MCS, la garantie d'une œuvre adaptée à vos besoins
+                </div>
+                <div class="copyright">
+                <p>&copy; MMXXV MCS - Magna Consilium Solaris. Tous droits réservés.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
